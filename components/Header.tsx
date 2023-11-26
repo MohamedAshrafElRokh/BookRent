@@ -6,12 +6,14 @@ import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import Button from "./Button";
+import useAuthModal from "@/hooks/useAuthModal";
 interface HeaderProps {
   children: React.ReactNode;
   className?: string;
 }
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
+  const AuthModal = useAuthModal();
   return (
     <div
       className={twMerge(
@@ -47,10 +49,18 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           </button>
         </div>
         <div className="flex items-center gap-x-4">
-          <Button className="bg-transparent text-black text-lg font-semibold hover:opacity-60">
+          <Button
+            onClick={AuthModal.onOpen}
+            className="bg-transparent text-black text-lg font-semibold hover:opacity-60"
+          >
             Sign Up
           </Button>
-          <Button className="text-white text-lg py-2 px-6">Login</Button>
+          <Button
+            onClick={AuthModal.onOpen}
+            className="text-white text-lg py-2 px-6"
+          >
+            Login
+          </Button>
         </div>
       </div>
       {children}
