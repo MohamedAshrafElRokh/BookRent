@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Modal from "@/components/Modal";
+import AuthModal from "@/components/AuthModal";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -12,7 +14,11 @@ const ModalProvider = () => {
   if (!isMounted) {
     return null;
   }
-  return <div className="text-3xl text-white">modal</div>;
+  return (
+    <>
+      <AuthModal />
+    </>
+  );
 };
 
 export default ModalProvider;
