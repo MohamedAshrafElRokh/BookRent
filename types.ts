@@ -9,6 +9,15 @@ export interface UserDetails {
   billind_address?: Stripe.Address;
   payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
 }
+export interface Book {
+  map(arg0: (book: any) => any): unknown;
+  id: string;
+  user_id: string;
+  title: string;
+  category: string;
+  image_path: string;
+  author: string;
+}
 
 export interface Product {
   id: string;
