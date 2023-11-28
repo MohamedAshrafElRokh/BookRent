@@ -2,9 +2,20 @@
 import React from "react";
 import { IoLibrary } from "react-icons/io5";
 import { AiOutlinePlus } from "react-icons/ai";
+import useAuthModal from "@/hooks/useAuthModal";
+import { useUser } from "@/hooks/useUser";
+import useUploadModal from "@/hooks/useUploadModal";
 const Library = () => {
+  const authModal = useAuthModal();
+  const { user } = useUser();
+  const uploadModal = useUploadModal();
   const onClick = () => {
     //upload
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if (!user) {
+      return authModal.onOpen();
+    }
+    return uploadModal.onOpen();
   };
   return (
     <div className="flex flex-col">

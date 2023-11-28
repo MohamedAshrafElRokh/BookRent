@@ -12,19 +12,18 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "react-hot-toast";
 import { UserDetails } from "@/types";
+
 interface HeaderProps {
   children: React.ReactNode;
   className?: string;
 }
+
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
   const AuthModal = useAuthModal();
   const supabaseClient = useSupabaseClient();
-  const { user } = useUser() as any;
+  const { user } = useUser();
 
-  if (user) {
-    localStorage.setItem("user", user);
-  }
   const handelLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
     router.refresh();
@@ -40,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
     <div
       className={twMerge(
         `
-  bg-gradient-to-b 
-  from-slate-50
+  bg-gradient-to-b from-10%
+  from-slate-200 to-100%
   h-fit
   p-6`,
         className
