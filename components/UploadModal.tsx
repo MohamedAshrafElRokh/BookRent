@@ -1,36 +1,59 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import uniqid from "uniqid";
 import Modal from "./Modal";
 import useUploadModal from "@/hooks/useUploadModal";
 import Input from "./Input";
 import Button from "./Button";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
+import { log } from "console";
+
+export const revalidate = 0;
 const UploadModal = () => {
   const uploadModal = useUploadModal();
   const [isLoading, setIsLoading] = useState<boolean>();
   const { user } = useUser() as any;
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
-  const { register, reset, handleSubmit } = useForm<FieldValues>({
-    defaultValues: {
-      author: "",
-      title: "",
-      image: "",
-    },
-  });
+  const { reset } = useForm();
 
-  const onHandelSubmit: SubmitHandler<FieldValues> = async (values) => {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const authorRef = useRef<HTMLInputElement>(null);
+  const categoryRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedImage, setImage] = useState() as unknown as any;
+
+  const onChange = (open: boolean) => {
+    console.log("change");
+
+    if (!open) {
+      uploadModal.onClose();
+    }
+  };
+
+  const onHandelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const title = titleRef.current?.value || "";
+    const author = authorRef.current?.value || "";
+    const category = categoryRef.current?.value || "";
+    if (
+      fileInputRef.current &&
+      fileInputRef.current.files &&
+      fileInputRef.current.files[0]
+    ) {
+      const image = fileInputRef.current.files[0];
+      setImage(image);
+    }
+
     try {
       console.log(isLoading);
       setIsLoading(false);
-      const imageFile = values.image?.[0];
 
-      if (!imageFile || !user) {
+      if (!selectedImage || !user) {
         toast.error("Missing fields");
         return;
       }
@@ -39,7 +62,7 @@ const UploadModal = () => {
       const { data: imageData, error: imageError } =
         await supabaseClient.storage
           .from("images")
-          .upload(`image-${values.title}-${uniqID}`, imageFile, {
+          .upload(`image-${title}-${uniqID}`, selectedImage, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -48,14 +71,13 @@ const UploadModal = () => {
         setIsLoading(false);
         return toast.error("Image Upload Failed");
       }
-      console.log(values.title);
       const { error: supabaseError } = await supabaseClient
         .from("Books")
         .insert({
           user_id: user.id,
-          title: values.title,
-          author: values.author,
-          category: values.category,
+          title: title,
+          author: author,
+          category: category,
           image_path: imageData?.path,
         });
 
@@ -67,6 +89,7 @@ const UploadModal = () => {
       setIsLoading(false);
       router.refresh();
       reset();
+      setImage("");
       uploadModal.onClose();
       toast.success("Book Uploaded Successfully");
     } catch (err) {
@@ -76,12 +99,6 @@ const UploadModal = () => {
     }
   };
 
-  const onChange = (open: boolean) => {
-    if (!open) {
-      reset();
-      uploadModal.onClose();
-    }
-  };
   return (
     <Modal
       isOpen={uploadModal.isOpen}
@@ -91,36 +108,40 @@ const UploadModal = () => {
     >
       <form
         className="flex flex-col gap-y-4"
-        onSubmit={handleSubmit(onHandelSubmit)}
+        onSubmit={(e) => onHandelSubmit(e)}
       >
         <Input
           id="title"
+          ref={titleRef}
           placeholder="Book title"
           disabled={isLoading}
-          {...register("title", { required: true })}
+          // {...register("title", { required: true })}
         ></Input>
         <Input
           id="author"
+          ref={authorRef}
           placeholder="Author Name"
           disabled={isLoading}
-          {...register("author", { required: true })}
+          // {...register("author", { required: true })}
         ></Input>
         <Input
           id="category"
+          ref={categoryRef}
           placeholder="category"
           disabled={isLoading}
-          {...register("category", { required: true })}
+          // {...register("category", { required: true })}
         ></Input>
         <div>
           <p className="text-white pb-1">Upload Image</p>
           <Input
+            ref={fileInputRef}
             className="text-white"
             id="image"
             type="file"
             accept="image/*"
-            disabled={isLoading}
-            {...register("image", { required: true })}
-          ></Input>
+            disabled={false}
+            // {...register("image", { required: true })}
+          />
         </div>
         <Button className="text-white py-2" disabled={isLoading} type="submit">
           Upload

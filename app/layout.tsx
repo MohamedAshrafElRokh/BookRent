@@ -7,6 +7,7 @@ import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
 
+export const revalidate = 0;
 const font = Mukta({
   subsets: ["latin"],
   weight: "300",
