@@ -1,4 +1,3 @@
-"use client";
 import React, { useRef, useState } from "react";
 import uniqid from "uniqid";
 import Modal from "./Modal";
@@ -10,7 +9,6 @@ import toast from "react-hot-toast";
 import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
-import { log } from "console";
 
 export const revalidate = 0;
 const UploadModal = () => {
@@ -40,29 +38,27 @@ const UploadModal = () => {
     const title = titleRef.current?.value || "";
     const author = authorRef.current?.value || "";
     const category = categoryRef.current?.value || "";
-    if (
-      fileInputRef.current &&
-      fileInputRef.current.files &&
-      fileInputRef.current.files[0]
-    ) {
-      const image = fileInputRef.current.files[0];
-      setImage(image);
-    }
 
     try {
-      console.log(isLoading);
-      setIsLoading(false);
-
-      if (!selectedImage || !user) {
-        toast.error("Missing fields");
+      if (
+        !fileInputRef.current ||
+        !fileInputRef.current.files ||
+        !fileInputRef.current.files[0]
+      ) {
+        toast.error("Please select an image");
         return;
       }
+
+      const image = fileInputRef.current.files[0];
+
+      setIsLoading(true);
+
       const uniqID = uniqid();
 
       const { data: imageData, error: imageError } =
         await supabaseClient.storage
           .from("images")
-          .upload(`image-${title}-${uniqID}`, selectedImage, {
+          .upload(`image-${title}-${uniqID}`, image, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -71,6 +67,7 @@ const UploadModal = () => {
         setIsLoading(false);
         return toast.error("Image Upload Failed");
       }
+
       const { error: supabaseError } = await supabaseClient
         .from("Books")
         .insert({
@@ -89,7 +86,7 @@ const UploadModal = () => {
       setIsLoading(false);
       router.refresh();
       reset();
-      setImage("");
+      setImage(""); // Clear the image state after successful upload
       uploadModal.onClose();
       toast.success("Book Uploaded Successfully");
     } catch (err) {
