@@ -18,8 +18,8 @@ const BookCategory: React.FC<BookCategoryProps> = ({ Book }) => {
     items-center 
     justify-center 
     rounded-md 
+    w-full
     overflow-hidden 
-    gap-x-4 
     bg-neutral-400/5 
     cursor-pointer 
     hover:bg-neutral-400/10 
@@ -34,11 +34,11 @@ const BookCategory: React.FC<BookCategoryProps> = ({ Book }) => {
       w-full
       h-full 
       rounded-md 
-      overflow-hidden
+      overflow-auto
     "
       >
         <Image
-          className="object-cover"
+          className="object-bottom"
           src={imagePath || "/images/music-placeholder.png"}
           fill
           alt="Image"
