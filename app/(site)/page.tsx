@@ -4,6 +4,8 @@ import { FaHeart } from "react-icons/fa6";
 import ListItems from "@/components/ListItems";
 import PageContent from "./components/PageContent";
 import { getBooks } from "../../actions/GetData";
+import Link from "next/link";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 export const revalidate = 0;
 
@@ -27,10 +29,18 @@ export default async function Home() {
           </ListItems>
         </div>
       </Header>
-      <div className=" text-white m-5 text-lg font-semibold">
+      <div className=" text-white m-5 text-lg font-semibold flex justify-between">
         <p>Books Categores</p>
+        <Link href={"/book"}>
+          <div className="flex  items-center group mr-5">
+            <p className="">All Books</p>
+            <p className="hidden group-hover:block">
+              <MdKeyboardDoubleArrowRight size={20} />
+            </p>
+          </div>
+        </Link>
       </div>
-      <div>
+      <div className="w-full h-full">
         <PageContent books={books} />
       </div>
     </div>

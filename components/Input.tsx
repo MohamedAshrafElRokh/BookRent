@@ -1,18 +1,21 @@
 import React, { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  children: React.ReactNode;
+}
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, type, disabled, ...props },
+    { className, type, disabled, children, ...props },
     ref: React.Ref<HTMLInputElement> | undefined
   ) => {
     return (
-      <input
-        type={type}
-        className={twMerge(
-          `
+      <label>
+        <input
+          type={type}
+          className={twMerge(
+            `
           flex 
           w-full 
           rounded-md 
@@ -31,13 +34,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled:opacity-50
           focus:outline-none
         `,
-          disabled && "opacity-75",
-          className
-        )}
-        disabled={disabled}
-        ref={ref}
-        {...props}
-      />
+            disabled && "opacity-75",
+            className
+          )}
+          disabled={disabled}
+          ref={ref}
+          {...props}
+        />
+        {children}
+      </label>
     );
   }
 );

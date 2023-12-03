@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Book } from "@/types";
-import BookCategory from "@/components/BookCategory";
+import BookModal from "@/components/BookModal";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import Link from "next/link";
@@ -69,8 +69,9 @@ const Category: React.FC<CategoryProps> = ({ category, bookCat }) => {
     <div className="mb-5 font-semibold">
       <div>
         <Link
-          href={"/book/category"}
-          className="text-2xl mb-5 ml-5 flex items-center group cursor-pointer "
+          href="/book/[category]"
+          as={`/book/${category}`}
+          className="text-2xl mb-5 ml-5 flex items-center group cursor-pointer w-8"
         >
           <p>{category}</p>
           <div className="ml-2  hidden group-hover:block">
@@ -104,7 +105,7 @@ const Category: React.FC<CategoryProps> = ({ category, bookCat }) => {
         >
           {bookCat.map((book) => (
             <div key={book.id} className="flex-none w-48">
-              <BookCategory Book={book} />
+              <BookModal Book={book} />
             </div>
           ))}
         </div>
