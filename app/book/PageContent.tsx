@@ -1,7 +1,7 @@
 import { Book } from "@/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookModal from "@/components/BookModal";
-import { getBooksByCategory } from "../../actions/GetData";
+import SideBar from "../../components/SideBarBook";
 interface PageContentProps {
   books: Book[];
 }
@@ -13,7 +13,7 @@ interface Category {
 
 export const revalidate = 0;
 
-const PageContent: React.FC<PageContentProps> = async ({ books }) => {
+const PageContent: React.FC<PageContentProps> = ({ books }) => {
   const categorys: Category[] = [
     { id: "1", category: "Fantasy" },
     { id: "2", category: "Crime" },
@@ -22,11 +22,20 @@ const PageContent: React.FC<PageContentProps> = async ({ books }) => {
     { id: "5", category: "Fiction" },
     { id: "6", category: "Novel" },
   ];
-  const [selected, setSelected] = useState<Book[]>();
-  const handelCategory = async (category: Category) => {
-    const res = await getBooksByCategory(category.category);
-    setSelected(res);
-  };
+
+  // const [selected, setSelected] = useState<Category>();
+  // const getCategory = (cat: any) => {
+  //   console.log(cat, "grom page");
+  //   setSelected(cat);
+  // };
+  // console.log("selected", selected);
+
+  // const handelCategory = async (selected: string) => {
+  //   const result = await getBooksByCategory(selected);
+  //   // setCategory(result);
+  //   console.log(res);
+  // };
+  // handelCategory;
 
   return (
     <div className="w-full flex flex-col justify-around">
@@ -34,26 +43,11 @@ const PageContent: React.FC<PageContentProps> = async ({ books }) => {
         <p>All Books</p>
       </div>
 
-      <div className="flex ml-5 mr-5 ">
-        <div
-          className="flex flex-wrap  gap-x-4 gap-y-4
-      "
-        >
+      <div className="flex ml-5 mr-5">
+        <div className="flex flex-wrap gap-x-4 gap-y-4">
           {books?.map((book) => (
             <div key={book.id} className="flex-none w-48">
               <BookModal Book={book} />
-            </div>
-          ))}
-        </div>
-
-        <div className=" flex bg-neutral-100/10 shadow-2xl rounded-xl flex-col  justify-around h-96">
-          {categorys.map((category) => (
-            <div
-              onClick={() => handelCategory(category)}
-              className=" p-3 border"
-              key={category.id}
-            >
-              {category.category}
             </div>
           ))}
         </div>

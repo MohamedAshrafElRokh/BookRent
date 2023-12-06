@@ -69,8 +69,7 @@ const Category: React.FC<CategoryProps> = ({ category, bookCat }) => {
     <div className="mb-5 font-semibold">
       <div>
         <Link
-          href="/book/[category]"
-          as={`/book/${category}`}
+          href={`/book/${category}`}
           className="text-2xl mb-5 ml-5 flex items-center group cursor-pointer w-8"
         >
           <p>{category}</p>
