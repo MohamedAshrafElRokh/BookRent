@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { Book } from "@/types";
 import useLoadImage from "@/hooks/useLoadImage";
+import Link from "next/link";
 interface BookModalProps {
   Book: Book;
 }

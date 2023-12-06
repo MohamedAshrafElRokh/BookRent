@@ -104,7 +104,9 @@ const Category: React.FC<CategoryProps> = ({ category, bookCat }) => {
         >
           {bookCat.map((book) => (
             <div key={book.id} className="flex-none w-48">
-              <BookModal Book={book} />
+              <Link href={`/book/${book.title}`}>
+                <BookModal Book={book} />
+              </Link>
             </div>
           ))}
         </div>
