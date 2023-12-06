@@ -6,18 +6,19 @@ interface SideBarProps {
     id: string;
     category: string;
   };
+  params: string | string[] | undefined;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ cat }) => {
-  const [selected, setSelected] = useState<string | undefined>(undefined);
-
-  const onGetCategory = (category: string) => {
-    setSelected(category);
-  };
-
-  console.log(selected);
-
-  return <div onClick={() => onGetCategory(cat.category)}>{cat.category}</div>;
+const SideBar: React.FC<SideBarProps> = ({ cat, params }) => {
+  return (
+    <div
+      className={`p-5   ${
+        params === cat.category ? "text-white" : "text-white opacity-70"
+      } `}
+    >
+      <p className="border-b">{cat.category}</p>
+    </div>
+  );
 };
 
 export default SideBar;
