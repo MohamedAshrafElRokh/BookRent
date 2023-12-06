@@ -3,7 +3,6 @@ import Image from "next/image";
 import React from "react";
 import { Book } from "@/types";
 import useLoadImage from "@/hooks/useLoadImage";
-import Link from "next/link";
 interface BookModalProps {
   Book: Book;
 }
@@ -20,6 +19,7 @@ const BookModal: React.FC<BookModalProps> = ({ Book }) => {
     justify-center 
     rounded-md 
     w-full
+    h-full 
     overflow-hidden 
     bg-neutral-400/5 
     cursor-pointer 

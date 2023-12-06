@@ -10,16 +10,9 @@ interface PageContentProps {
   books: Book[];
 }
 
-interface Category {
-  id: string;
-  category: string;
-}
-
 export const revalidate = 0;
 
 const PageContent: React.FC<PageContentProps> = ({ books }) => {
-  console.log(books, "hh");
-
   return (
     <div className="w-full flex flex-col justify-around">
       <div className="text-2xl text-white font-semibold m-5">
@@ -33,7 +26,7 @@ const PageContent: React.FC<PageContentProps> = ({ books }) => {
           <div className="flex flex-wrap gap-x-4 gap-y-4">
             {books?.map((book) => (
               <div key={book.id} className="flex-none w-48">
-                <Link href={`book/${book.title}`}>
+                <Link href={`/book/${book.title}`}>
                   <BookModal Book={book} />
                 </Link>
               </div>

@@ -25,7 +25,9 @@ export default async function Home() {
       <Header>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 mt-4">
           <ListItems name={"Liked Books"} href={"liked"}>
-            <FaHeart size={26} />
+            <div>
+              <FaHeart size={26} />
+            </div>
           </ListItems>
         </div>
       </Header>
