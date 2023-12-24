@@ -12,13 +12,20 @@ import { useRouter } from "next/navigation";
 
 export const revalidate = 0;
 const UploadModal = () => {
+  const categories = [
+    "Fantasy",
+    "Crime",
+    "Comics",
+    "Horror",
+    "Fiction",
+    "Novel",
+  ];
   const uploadModal = useUploadModal();
   const [isLoading, setIsLoading] = useState<boolean>();
   const { user } = useUser() as any;
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
   const { reset } = useForm();
-
   const titleRef = useRef<HTMLInputElement>(null);
   const authorRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLInputElement>(null);
@@ -108,6 +115,7 @@ const UploadModal = () => {
         onSubmit={(e) => onHandelSubmit(e)}
       >
         <Input
+          className="text-white"
           id="title"
           ref={titleRef}
           placeholder="Book title"
@@ -115,19 +123,42 @@ const UploadModal = () => {
           // {...register("title", { required: true })}
         ></Input>
         <Input
+          className="text-white"
           id="author"
           ref={authorRef}
           placeholder="Author Name"
           disabled={isLoading}
           // {...register("author", { required: true })}
         ></Input>
-        <Input
-          id="category"
+        <select
+          defaultValue={"Select Category"}
+          className=" flex 
+          w-full 
+          rounded-md 
+          bg-neutral-700
+          border
+          border-transparent
+          px-3 
+          py-3 
+          text-white
+          text-sm 
+          file:border-0 
+          file:bg-transparent 
+          file:text-sm 
+          file:font-medium 
+          placeholder:text-neutral-400 
+          disabled:cursor-not-allowed 
+          disabled:opacity-50
+          focus:outline-none"
+          id="bookCategory"
           ref={categoryRef}
-          placeholder="category"
-          disabled={isLoading}
-          // {...register("category", { required: true })}
-        ></Input>
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
         <div>
           <p className="text-white pb-1">Upload Image</p>
           <Input
