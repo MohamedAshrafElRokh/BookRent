@@ -7,6 +7,7 @@ import { getBooks, getBooksByCategory } from "@/actions/GetData";
 import PageContent from "./PageContent";
 import SideBar from "@/components/SideBarBook";
 import Link from "next/link";
+import { Book } from "@/types";
 
 interface Category {
   id: string;
@@ -32,7 +33,7 @@ const Books = async ({
     { id: "6", category: "Novel" },
   ];
 
-  const books = await getBooks(searchParams.category);
+  const books = (await getBooks(searchParams?.category)) as Book[];
 
   return (
     <div className="bg-neutral-900 h-full w-full rounded-lg overflow-hidden overflow-y-auto">

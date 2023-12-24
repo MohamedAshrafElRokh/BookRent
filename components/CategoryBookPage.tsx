@@ -17,7 +17,6 @@ const Category: React.FC<CategoryProps> = ({ category, bookCat }) => {
   const leftButtonRef = useRef<HTMLButtonElement>(null);
   const rightButtonRef = useRef<HTMLButtonElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  console.log(bookCat, "hh");
 
   useEffect(() => {
     const container = containerRef.current;

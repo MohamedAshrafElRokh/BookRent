@@ -99,7 +99,7 @@ const Category: React.FC<CategoryProps> = ({ category, bookCat }) => {
             overflow-x-hidden
           `}
           style={{
-            width: `${bookCat.length * 200}px`, // Adjust the width as needed
+            width: `${bookCat.length * 150}px`, // Adjust the width as needed
           }}
         >
           {bookCat.map((book) => (

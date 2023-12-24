@@ -10,7 +10,7 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 export const revalidate = 0;
 
 export default async function Home() {
-  const books = await getBooks();
+  const books = await getBooks("");
 
   return (
     <div

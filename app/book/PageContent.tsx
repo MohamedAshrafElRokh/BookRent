@@ -1,11 +1,7 @@
 import { Book } from "@/types";
-import qs from "query-string";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BookModal from "@/components/BookModal";
-import SideBar from "../../components/SideBarBook";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { log } from "console";
 interface PageContentProps {
   books: Book[];
 }
